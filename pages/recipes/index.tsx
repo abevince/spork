@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-import { Container, Grid, Paper } from '@mui/material';
+import { Container, Grid, Paper, Typography } from '@mui/material';
 import { GetServerSideProps } from 'next';
 import * as React from 'react';
 import FeaturedItem from '../../src/components/features/home/FeaturedItem';
@@ -13,7 +13,7 @@ const RecipesPage = ({ recipes }) => {
     <AppContainer>
       <Container disableGutters>
         <NavBar />
-        <h2>Recipes</h2>
+        <Typography variant="h1">Recipes</Typography>
         <Grid container spacing={1}>
           {recipes?.map((recipe, index) => (
             <FeaturedItem recipe={recipe} index={index} key={recipe.slug} />

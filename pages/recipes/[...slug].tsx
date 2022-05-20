@@ -1,13 +1,14 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { RichText } from '@graphcms/rich-text-react-renderer';
 import AppContainer from '../../src/components/ui/layout/AppContainer';
 import client from '../../src/lib/apolloClient';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import NavBar from '../../src/components/ui/layout/NavBar';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
+import { RichTextContent } from '@graphcms/rich-text-types';
 
 const RecipeContainer = styled.div`
   display: flex;
@@ -26,8 +27,33 @@ const RecipeImageContainer = styled.div`
   height: 550px;
 `;
 
-const RecipePage = ({ recipe }) => {
-  console.log(recipe);
+const RecipeHeader = styled.article`
+  max-width: 650px;
+  padding: 0 1.75rem;
+  text-align: center;
+`;
+
+export interface TRecipe {
+  title: string;
+  shortDescription: string;
+
+  slug: string;
+  coverImage: {
+    url: string;
+  };
+  creator: string;
+  createdAt: string;
+  content: {
+    raw: RichTextContent;
+  };
+  featured: string;
+}
+
+interface RecipePageProps {
+  recipe: TRecipe;
+}
+
+const RecipePage: NextPage<RecipePageProps> = ({ recipe }) => {
   return (
     <AppContainer
       seo={{
@@ -67,10 +93,14 @@ const RecipePage = ({ recipe }) => {
               objectFit="cover"
             />
           </RecipeImageContainer>
-          <h1>{recipe.title}</h1>
+          <RecipeHeader>
+            <Typography variant="h1">{recipe.title}</Typography>
+            <Typography variant="h4" sx={{ fontStyle: 'italic' }}>
+              {recipe.shortDescription}
+            </Typography>
+            <Typography variant="h4">by {recipe.creator}</Typography>
+          </RecipeHeader>
           <ContentContainer>
-            <span>{recipe.shortDescription}</span>
-            <h3>by {recipe.creator}</h3>
             <RichText content={recipe.content.raw} />
           </ContentContainer>
         </RecipeContainer>
@@ -92,14 +122,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
     `,
   });
   const { recipes } = data;
-  const paths = recipes.map(recipe => ({
+  const paths = recipes.map((recipe: { slug: string }) => ({
     params: { slug: [recipe.slug] },
   }));
   return { paths, fallback: false };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = params.slug[0];
+  const slug = params?.slug[0] as string;
   const { data } = await client.query({
     query: gql`
       query RecipeBySlug($slug: String!) {

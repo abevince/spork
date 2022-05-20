@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import { CircularProgress, Grid } from '@mui/material';
+import { CircularProgress, Grid, Typography } from '@mui/material';
 import * as React from 'react';
 import FeatureItem from './FeaturedItem';
 
@@ -24,10 +24,6 @@ const FeaturedSection = styled.section`
   padding: 2rem 0;
 `;
 
-const FeaturedHeader = styled.h2`
-  color: #334155;
-`;
-
 const FeaturedContainer = styled.div`
   width: 100%;
   text-align: center;
@@ -42,7 +38,7 @@ const Featured = () => {
   console.log(data?.recipes);
   return (
     <FeaturedSection>
-      <FeaturedHeader>Featured</FeaturedHeader>
+      <Typography variant="h2">Featured</Typography>
       <FeaturedContainer>
         {loading ? (
           <CircularProgress />
