@@ -2,6 +2,7 @@ import { gql, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { CircularProgress, Grid, Typography } from '@mui/material';
 import * as React from 'react';
+import { TRecipe } from '../../../../pages/recipes/[...slug]';
 import FeatureItem from './FeaturedItem';
 
 const QUERY = gql`
@@ -29,13 +30,17 @@ const FeaturedContainer = styled.div`
   text-align: center;
 `;
 
+interface TRecipeDta {
+  recipes: TRecipe[];
+}
+
 const Featured = () => {
-  const { data, loading, error } = useQuery(QUERY);
+  const { data, loading, error } = useQuery<TRecipeDta>(QUERY);
   if (error) {
     console.error(error);
     return null;
   }
-  console.log(data?.recipes);
+
   return (
     <FeaturedSection>
       <Typography variant="h2">Featured</Typography>
