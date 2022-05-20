@@ -1,14 +1,17 @@
 import { gql } from '@apollo/client';
-
-import { Container, Grid, Paper, Typography } from '@mui/material';
-import { GetServerSideProps } from 'next';
+import { Container, Grid, Typography } from '@mui/material';
+import { GetServerSideProps, NextPage } from 'next';
 import * as React from 'react';
 import FeaturedItem from '../../src/components/features/home/FeaturedItem';
 import AppContainer from '../../src/components/ui/layout/AppContainer';
 import NavBar from '../../src/components/ui/layout/NavBar';
 import client from '../../src/lib/apolloClient';
+import { TRecipe } from './[...slug]';
+interface RecipesPageProps {
+  recipes: [TRecipe];
+}
 
-const RecipesPage = ({ recipes }) => {
+const RecipesPage: NextPage<RecipesPageProps> = ({ recipes }) => {
   return (
     <AppContainer>
       <Container disableGutters>

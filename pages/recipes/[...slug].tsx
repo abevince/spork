@@ -9,6 +9,7 @@ import Image from 'next/image';
 import NavBar from '../../src/components/ui/layout/NavBar';
 import { Container, Typography } from '@mui/material';
 import { RichTextContent } from '@graphcms/rich-text-types';
+import { ParsedUrlQuery } from 'querystring';
 
 const RecipeContainer = styled.div`
   display: flex;
@@ -128,8 +129,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = params?.slug[0] as string;
+interface IParams extends ParsedUrlQuery {
+  slug: [string];
+}
+export const getStaticProps: GetStaticProps = async context => {
+  const { slug } = context.params as IParams;
   const { data } = await client.query({
     query: gql`
       query RecipeBySlug($slug: String!) {
@@ -149,7 +153,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         }
       }
     `,
-    variables: { slug },
+    variables: { slug: slug[0] },
   });
   const { recipes } = data;
   return {
