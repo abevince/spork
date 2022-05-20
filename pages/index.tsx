@@ -13,6 +13,27 @@ const Home: NextPage = () => {
       seo={{
         title: 'Spork - Home',
         description: 'Your one-stop culinary site',
+        openGraph: {
+          title: `Spork - Home`,
+          description: 'Your one-stop culinary site',
+          images: [
+            {
+              url: '/banner.jpeg',
+              width: 800,
+              height: 600,
+              alt: 'Og Image Alt',
+              type: 'image/jpeg',
+            },
+            {
+              url: '/banner.jpeg',
+              width: 900,
+              height: 800,
+              alt: 'Og Image Alt Second',
+              type: 'image/jpeg',
+            },
+          ],
+          site_name: 'Spork',
+        },
       }}
     >
       <Container disableGutters>
