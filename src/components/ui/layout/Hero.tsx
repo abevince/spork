@@ -31,6 +31,11 @@ const SearchContainer = styled.div`
   border-radius: 5px;
 `;
 
+const SearchLink = styled.a`
+  text-decoration: none;
+  padding: 5px 12px;
+`;
+
 const QUERY = gql`
   query Recipes {
     recipes {
@@ -47,15 +52,16 @@ interface TRecipeData {
 const Hero = () => {
   const { data, loading } = useQuery<TRecipeData>(QUERY);
 
-  const recipeData = React.useMemo(() => {
-    return data?.recipes?.map(recipe => ({
-      label: recipe.title,
-      slug: recipe.slug,
-    }));
-  }, [data]);
+  const recipeData: Readonly<{ label: string; slug: string }[] | undefined> =
+    React.useMemo(() => {
+      return data?.recipes?.map(recipe => ({
+        label: recipe.title,
+        slug: recipe.slug,
+      }));
+    }, [data]);
   return (
     <HeroContainer>
-      {loading ? null : (
+      {loading || !recipeData ? null : (
         <SearchContainer>
           <Autocomplete
             fullWidth
@@ -69,7 +75,7 @@ const Hero = () => {
                 {...props}
               >
                 <Link href={`/recipes/${option.slug}`}>
-                  <a>{option.label}</a>
+                  <SearchLink>{option.label}</SearchLink>
                 </Link>
               </Box>
             )}
