@@ -4,6 +4,7 @@ import { Autocomplete, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import Link from 'next/link';
 import * as React from 'react';
+import { TRecipe } from '../../../../pages/recipes/[...slug]';
 
 const HeroContainer = styled.div`
   display: flex;
@@ -39,11 +40,15 @@ const QUERY = gql`
   }
 `;
 
+interface TRecipeData {
+  recipes: TRecipe[];
+}
+
 const Hero = () => {
-  const { data, loading } = useQuery(QUERY);
+  const { data, loading } = useQuery<TRecipeData>(QUERY);
 
   const recipeData = React.useMemo(() => {
-    return data?.recipes.map(recipe => ({
+    return data?.recipes?.map(recipe => ({
       label: recipe.title,
       slug: recipe.slug,
     }));

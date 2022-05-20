@@ -3,6 +3,7 @@ import { Grid, Paper } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
+import { TRecipe } from '../../../../pages/recipes/[...slug]';
 
 const FeaturedOverlay = styled.div`
   position: absolute;
@@ -45,7 +46,12 @@ const FeaturedDetails = styled.span`
   font-style: italic;
 `;
 
-const FeaturedItem = ({ recipe, index }) => {
+interface FeaturedItemsProps {
+  recipe: TRecipe;
+  index: number;
+}
+
+const FeaturedItem: React.FC<FeaturedItemsProps> = ({ recipe, index }) => {
   return (
     <Grid
       item

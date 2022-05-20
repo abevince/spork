@@ -9,7 +9,12 @@ import Hero from '../src/components/ui/layout/Hero';
 
 const Home: NextPage = () => {
   return (
-    <AppContainer>
+    <AppContainer
+      seo={{
+        title: 'Spork - Home',
+        description: 'Your one-stop culinary site',
+      }}
+    >
       <Container disableGutters>
         <NavBar />
         <Hero />
