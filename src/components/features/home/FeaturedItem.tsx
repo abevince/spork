@@ -56,7 +56,7 @@ const FeaturedItem: React.FC<FeaturedItemsProps> = ({ recipe, index }) => {
     <Grid
       item
       xs={12}
-      md={index === 1 || index === 2 ? 4 : 8}
+      md={index === 1 || index === 2 || index === 5 ? 4 : 8}
       key={recipe.slug}
     >
       <Link href={`/recipes/${recipe.slug}`}>
